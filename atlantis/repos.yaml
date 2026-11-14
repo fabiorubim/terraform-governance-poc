@@ -12,7 +12,13 @@ workflows:
         - init
         - plan
         - run: |
-            terraform show -json "$PLANFILE" > plan.json
+            set -eu
+
+            TF_BIN="/home/atlantis/.atlantis/bin/terraform${ATLANTIS_TERRAFORM_VERSION}"
+
+            "$TF_BIN" version
+            "$TF_BIN" show -json "$PLANFILE" > plan.json
+
             opa eval \
               --fail-defined \
               --data ../policies/governance.rego \
