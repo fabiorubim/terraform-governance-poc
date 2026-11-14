@@ -1,3 +1,4 @@
+# Comentário
 terraform {
   required_version = ">= 1.5.0"
   backend "local" {
@@ -11,6 +12,6 @@ resource "terraform_data" "app" {
     environment = "production"
     owner_team  = "platform"
     encrypted   = true
-    version     = "1.0.1"
+    version     = "1.0.2"
   }
 }
