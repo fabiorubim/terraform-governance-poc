@@ -17,6 +17,6 @@ resource "terraform_data" "app" {
     environment = "production"
     owner_team  = "platform"
     encrypted   = true
-    version     = "1.0.1"
+    version     = "1.0.2"
   }
 }
