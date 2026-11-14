@@ -1,0 +1,23 @@
+services:
+  atlantis:
+    build:
+      context: .
+      dockerfile: atlantis/Dockerfile
+
+    ports:
+      - "127.0.0.1:4141:4141"
+
+    environment:
+      ATLANTIS_ATLANTIS_URL: ${ATLANTIS_URL}
+      ATLANTIS_GH_USER: ${GITHUB_USER}
+      ATLANTIS_GH_TOKEN: ${GITHUB_TOKEN}
+      ATLANTIS_GH_WEBHOOK_SECRET: ${WEBHOOK_SECRET}
+      ATLANTIS_REPO_ALLOWLIST: github.com/${GITHUB_USER}/terraform-governance-poc
+      ATLANTIS_REPO_CONFIG: /etc/atlantis/repos.yaml
+
+    volumes:
+      - ./atlantis/repos.yaml:/etc/atlantis/repos.yaml:ro
+      - atlantis_data:/atlantis
+
+volumes:
+  atlantis_data:

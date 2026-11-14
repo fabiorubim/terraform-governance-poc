@@ -1,0 +1,24 @@
+repos:
+  - id: github.com/fabiorubim/terraform-governance-poc
+    workflow: governed
+    allowed_overrides: []
+    allow_custom_workflows: false
+    apply_requirements: [mergeable]
+
+workflows:
+  governed:
+    plan:
+      steps:
+        - init
+        - plan
+        - run: |
+            terraform show -json "$PLANFILE" > plan.json
+            opa eval \
+              --fail-defined \
+              --data ../policies/governance.rego \
+              --input plan.json \
+              'data.terraform.governance.deny[_]'
+
+    apply:
+      steps:
+        - apply

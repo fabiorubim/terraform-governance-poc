@@ -1,0 +1,34 @@
+# version: 3
+
+# projects:
+#   - name: infrastructure
+#     dir: infrastructure
+#     workflow: governed
+
+# workflows:
+#   governed:
+#     plan:
+#       steps:
+#         - init
+#         - run: terraform plan -out=$PLANFILE
+#         - run: terraform show -json $PLANFILE > plan.json
+#         - run: |
+#             opa eval \
+#               --fail-defined \
+#               --data ../policies/governance.rego \
+#               --input plan.json \
+#               'data.terraform.governance.deny[_]'
+
+#     apply:
+#       steps:
+#         - run: terraform apply $PLANFILE
+version: 3
+
+projects:
+  - name: infrastructure
+    dir: infrastructure
+    autoplan:
+      when_modified:
+        - "*.tf"
+        - "../policies/**/*.rego"
+      enabled: true
