@@ -18,6 +18,8 @@ services:
     volumes:
       - ./atlantis/repos.yaml:/etc/atlantis/repos.yaml:ro
       - atlantis_data:/atlantis
+      - terraform_state:/terraform-state
 
 volumes:
   atlantis_data:
+  terraform_state:
